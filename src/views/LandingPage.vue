@@ -6,6 +6,9 @@
             <div class="Introduction">
                 <h1 >This is my Take on the Google Keep Clone</h1>
                 <p > I will try my best to implement functionality found in the Keep App</p>
+                <div class="bottomScroll" @click="scrollToPosition">
+
+                </div>
             </div>
 
         </div>
@@ -79,11 +82,27 @@
             </div>
         </div>
         <div class="sectionFive">
+
             <svg xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 1440 320">
                 <path fill="#43026b"
-                      fill-opacity="1" d="M0,64L60,64C120,64,240,64,360,85.3C480,107,600,149,720,186.7C840,224,960,256,1080,256C1200,256,1320,224,1380,208L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+                      fill-opacity="1" d="M0,64L60,64C120,64,240,64,360,85.3C480,107,600,149,720,186.7C840,224,960,256,1080,256C1200,256,1320,224,1380,208L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
+                </path>
+            </svg>
+            <footer>
+                <section v-for="(values, key ) in footerItems" :key="key">
+                    <h2>{{key}}</h2>
+                    <ul v-for="value in values" :key="value">
+                        <li>{{value}}</li>
+                    </ul>
+                </section>
+            </footer>
+            <div class="topSelector">
+                <h2>Want to try it out?</h2>
+                <button>Sign Up!</button>
+            </div>
         </div>
+
 
     </div>
 </template>
@@ -98,19 +117,28 @@ name: "LandingPage",
     created() {
         window.addEventListener('scroll', this.toggleAnimation)
     },
+    mounted() {
+        document.addEventListener('scroll', this.smoothScrolling)
+    }
+    ,
     unmounted() {
         window.addEventListener('scroll', this.toggleAnimation)
     },
     data(){
         return{
             logos: ['tiktok', 'germany', 'linkedIn', 'airbnb', 'alianz'],
-            toggleVisibility: false
+            toggleVisibility: false,
+            footerItems : {
+                Title1: ["blah", "blah b lah", "blah bkjl", "something", "okay", "the dog"],
+                Title2: ["blah", "blah b lah", "blah bkjl", "something", "okay", "the dog"],
+                Title3: ["blah", "blah b lah", "blah bkjl", "something", "okay", "the dog"]
+            }
         }
     },
     methods:{
         toggleAnimation(){
             // testimonial carousel and trusted
-            console.log(window.scrollY)
+            //console.log(window.scrollY)
             let testimonial, carousel, trusted;
             testimonial = document.querySelector('.testimonials')
             carousel = document.querySelector('.carousel')
@@ -135,6 +163,14 @@ name: "LandingPage",
                     console.log(e)
                 }
             }
+        },
+        scrollToPosition(){
+            document.querySelector('.sectionTwo').scrollIntoView({
+                behavior: 'smooth'
+            })
+        },
+        smoothScrolling(){
+            console.log("I am the smoothScrolling event ")
         }
     }
 }
@@ -146,6 +182,8 @@ name: "LandingPage",
 
 <style lang="scss" scoped>
     @import "src/scss/main";
+    $top-selector-width: 700px;
+    $top-selector-height: 80px;
     .Landing{
         position: relative;
         width: 100vw;
@@ -160,11 +198,13 @@ name: "LandingPage",
         .Introduction{
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            //justify-content: center;
             width: calc(0.7 * 100vw);
             text-align: center;
             position: relative;
             font-family: $main-Font;
+            align-items: center;
+            height: 70vh;
             h1{
                 background: #ff7700;
                 color:#43026b;
@@ -178,6 +218,22 @@ name: "LandingPage",
                 color: #43026b;
                 font-size: 1.5rem;
                 margin-top: 0;
+            }
+            .bottomScroll{
+                width: 30px;
+                height: 30px;
+                position: relative;
+                bottom: -65%;
+                background-image: url("../assets/icons/downArrow.svg");
+                &:before{
+                    content: "Scroll Down";
+                    position: absolute;
+                    left: -45px;
+                    top: -30px;
+                    width: 120px;
+                    font-size: 1.09vw;
+
+                }
             }
 
         }
@@ -272,7 +328,7 @@ name: "LandingPage",
         flex-direction: column;
         align-items: center;
         padding-top: 50px;
-        padding-bottom: 50px;
+        padding-bottom: 80px;
         background-image: url('../../src/assets/icons/blob.svg'), url('../../src/assets/icons/blob 2.svg');
         background-position: left -250px top -150px, right -400px center;
         background-repeat: no-repeat;
@@ -293,12 +349,82 @@ name: "LandingPage",
         }
     }
     .sectionFive{
+        background: #833d96;
         height: auto;
         width: 100%;
+        display: grid;
+        padding-top: 10px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas:"main";
         svg{
-            position: absolute;
             display: block;
+            grid-area: main;
+            padding-top: 15vh;
         }
+        footer{
+            grid-area: main;
+            display: flex;
+            justify-content: center ;
+            align-items: center;
+            section{
+                width: 200px;
+                height: auto;
+                border-left: 1px solid black;
+                padding-left: 2vw;
+
+                &:nth-child(2){
+                    margin-right: 10vw;
+                    margin-left:  10vw;
+                }
+                h2{
+                    color: #f9b07b;
+                }
+                ul{
+                    list-style: none;
+                    padding: 0;
+                    li{
+                        color: #f9b07b
+                    }
+                }
+            }
+        }
+        .topSelector{
+            height: $top-selector-height;
+            width: $top-selector-width;
+            background: ghostwhite;
+            border: 6px solid #833d96;
+            border-radius: 100px;
+            position: relative;
+            grid-area: main;
+            top: calc(-10px - (#{$top-selector-height}/2));
+            /*margin-left: calc(50% - #{$top-selector-width});*/
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: hidden;
+            h2{
+                margin-left: 20px;
+            }
+            button{
+                height: $top-selector-height;
+                width: 130px;
+                display: flex;
+                align-items: center;
+                font-size: 20px;
+                padding-left: 20px;
+                border-radius: 100px;
+                border: none;
+                position: relative;
+                right: -6px;
+                background: #833d96;
+                color: ghostwhite;
+                font-weight: 500;
+            }
+        }
+
     }
 
 

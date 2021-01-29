@@ -1,15 +1,17 @@
 <template>
   <div id="app">
-      <Landing-page></Landing-page>
+      <router-view/>
   </div>
 </template>
 
 <script>
 
-import LandingPage from "@/views/LandingPage";
+import Data from "./PlacholderData/Data.json"
 export default {
   name: 'App',
-    components: {LandingPage},
+    created() {
+      window.sessionStorage.setItem("TemporaryStorage", JSON.stringify(Data))
+    }
 }
 </script>
 
@@ -18,4 +20,7 @@ export default {
 *{
     font-family: $main-Font;
 }
+    #app{
+
+    }
 </style>
